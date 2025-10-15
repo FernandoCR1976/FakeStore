@@ -22,14 +22,14 @@ const cartReducer = (state, action) => {
       );
 
       if (existingItem) {
-        const updatedItems = state.items.map((item) =>
+        const updatedItems = state.items.map(item =>
           item.id === action.payload.id
             ? { ...item, quantity: item.quantity + 1 }
             : item
         );
         return {
           ...state,
-          items: newItems,
+          items: updatedItems,
           total: calculateTotal(updatedItems)
         };
       }
@@ -41,7 +41,7 @@ const cartReducer = (state, action) => {
       };
     case "REMOVE_FROM_CART":
       const filteredItems = state.items.filter(
-        (item) => item.id !== action.payload
+        item => item.id !== action.payload
       );
       return {
         ...state,
@@ -49,7 +49,7 @@ const cartReducer = (state, action) => {
         total: calculateTotal(filteredItems),
       };
     case 'UPDATE_QUANTITY':
-        const updatedItems = state.items.map((item) =>
+        const updatedItems = state.items.map(item =>
           item.id === action.payload.id
             ? { ...item, quantity: action.payload.quantity }
             : item
@@ -79,10 +79,10 @@ const calculateTotal = (items)=>{
 // Provider del context
 
 export const CartProvider = ({children})=>{
-    const [ state, dispacth ] = useReducer(cartReducer, initialState);
+    const [ state, dispatch ] = useReducer(cartReducer, initialState);
 
     return (
-        <CartContext.Provider value={{ state, dispacth}}>{children}</CartContext.Provider>
+        <CartContext.Provider value={{ state, dispatch}}>{children}</CartContext.Provider>
     );
 };
 // Creamos un Hook personalizado
